@@ -39,9 +39,7 @@ wheels/
 
 # Assets
 assets/branding/*
-!assets/branding/.gitkeep
-assets/images/*
-!assets/images/.gitkeep
+!assets/branding/*.webp
 
 # OS specific
 .DS_Store
