@@ -6,3 +6,4 @@ pydantic==2.5.2
 pytest==7.4.3
 black==23.11.0
 flake8==6.1.0"
+pydantic-settings==2.1.0
