@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = False
     ENVIRONMENT: str = "development"
+    UNSPLASH_API_KEY: str = Field(..., description="Unsplash API key for image fetching")
     
     # Content Generation Settings
     DEFAULT_LANGUAGE: str = "en"

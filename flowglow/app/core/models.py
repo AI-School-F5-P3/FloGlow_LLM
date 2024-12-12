@@ -43,6 +43,11 @@ class ImageRequest(BaseModel):
     count: int = 1
     source: str = "unsplash"
 
+class ImageParams(BaseModel):
+    size: str = Field(default="regular", description="Image size (small, regular, large)")
+    orientation: str = Field(default="landscape", description="Image orientation")
+
+
 class ContentRequest(BaseModel):
     topic: str = Field(..., description="Main topic for content generation")
     platform: Platform = Field(..., description="Target platform")
@@ -51,6 +56,7 @@ class ContentRequest(BaseModel):
     language: str = Field(default="en", description="Content language")
     content_type: ContentType = Field(default=ContentType.TEXT)
     brand_voice: Optional[Dict[str, Any]] = None
+    image_params: Optional[ImageParams] = None
     
     class Config:
         use_enum_values = True
@@ -66,3 +72,16 @@ class LLMResponse(BaseModel):
     processed_content: Optional[str] = None
     error: Optional[str] = None
     metadata: Dict[str, Any] = Field(default_factory=dict)
+
+class ImageGenerationRequest(BaseModel):
+    """Image generation request configuration"""
+    query: str
+    style: Optional[str] = None
+    size: str = "regular"
+    count: int = 1
+
+class ImageResponse(BaseModel):
+    """Image generation response"""
+    urls: List[str]
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+    error: Optional[str] = None
