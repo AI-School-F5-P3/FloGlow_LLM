@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import Field
 from typing import Optional, Dict, Any
 import os
 from dotenv import load_dotenv

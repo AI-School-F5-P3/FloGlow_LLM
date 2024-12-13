@@ -69,7 +69,7 @@ class FlowGlowInterface:
                     interactive=False
                 )
 
-            with gr.Row(visible=False) as image_row:
+            with gr.Row():
                 image_output = gr.Image(
                     label="Generated Image",
                     show_label=True
@@ -78,8 +78,7 @@ class FlowGlowInterface:
             def update_image_controls(include_imgs):
                 return {
                     image_size: gr.update(visible=include_imgs),
-                    image_orientation: gr.update(visible=include_imgs),
-                    image_row: gr.update(visible=include_imgs)
+                    image_orientation: gr.update(visible=include_imgs)
                 }
 
             async def generate_content(
@@ -104,30 +103,18 @@ class FlowGlowInterface:
                         }
                     )
                     
-                    return {
-                        output: content,
-                        image_output: image_url if image_url else None,
-                        image_row: gr.update(visible=bool(image_url))
-                    }
+                    return content, image_url
                     
                 except Exception as e:
-                    return {
-                        output: f"Error generating content: {str(e)}",
-                        image_output: None,
-                        image_row: gr.update(visible=False)
-                    }
+                    return f"Error generating content: {str(e)}", None
 
             def clear_outputs():
-                return {
-                    output: "",
-                    image_output: None,
-                    image_row: gr.update(visible=False)
-                }
+                return "", None
 
             include_image.change(
                 fn=update_image_controls,
                 inputs=[include_image],
-                outputs=[image_size, image_orientation, image_row]
+                outputs=[image_size, image_orientation]
             )
 
             submit_btn.click(
@@ -136,12 +123,12 @@ class FlowGlowInterface:
                     platform, topic, audience, tone, language,
                     include_image, image_size, image_orientation
                 ],
-                outputs=[output, image_output, image_row]
+                outputs=[output, image_output]
             )
             
             clear_btn.click(
                 fn=clear_outputs,
-                outputs=[output, image_output, image_row]
+                outputs=[output, image_output]
             )
 
         return interface
